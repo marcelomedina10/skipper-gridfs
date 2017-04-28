@@ -23,7 +23,7 @@ Also make sure you have skipper [installed as your body parser](http://beta.sail
 
 ## Usage
 
-```javascript
+```javascript````
 req.file('avatar')
 .upload({
   adapter: require('skipper-gridfs'),
@@ -44,20 +44,8 @@ One important adapter-specific option to note is `uri`:
 
 | Option        | Type       | Details |
 |-----------    |:----------:|---------|
-| `uri`         | ((string)) | An optional parameter if you wish the enter your mongodb credentials as a URI, e.g. `mongodb://username:password@localhost:27107/databasename.bucket`.<br/> (Check [mongo client URI syntax](http://api.mongodb.org/java/current/com/mongodb/MongoClientURI.html)).|
-| `connectOpts` | ((object)) | An optional parameter if you wish the enter your mongodb connection options credentials as an object e.g. `{ server: { ssl: true, sslCA: 'CA_CERT', sslKey: 'SSL_KEY', sslCert: 'SSL_CERT' }, replSet: { rs_name: 'rs0', ssl:true} }` <br/> (Check [mongo client connection options](https://mongodb.github.io/node-mongodb-native/api-generated/mongoclient.html#connect)).|
-
->>Note:
->>Please use `uri` instead of passing in separate options for `username`, `password`, `host`, `port`, `dbname` and `bucket`
-
-In addition to the regular file adapter [methods](https://github.com/balderdashy/skipper#what-are-filesystem-adapters), these additional methods are also available:
-
-Method      | Description
- ----------- | ------------------
- `readLastVersion()`      | Get the most recent version of a file in GridFS
- `readVersion()`    | Get a specific version of a file in GridFS
- 
- These methods mimic [get_last_version](http://api.mongodb.org/python/current/api/gridfs/#gridfs.GridFS.get_last_version) and [get_version](http://api.mongodb.org/python/current/api/gridfs/#gridfs.GridFS.get_version) from pymongo's gridfs implementation.
+| `uri`         | ((string)) | An optional parameter if you wish the enter your mongodb credentials as a URI, e.g. `mongodb://username:password@localhost:27107/databasename.bucket?options`.<br/> (Check [mongo client URI syntax](https://docs.mongodb.com/manual/reference/connection-string/)).|
+| `maxBytes`    | ((integer))| Optional. Max total number of bytes permitted for a given upload, calculated by summing the size of all files in the upstream; e.g. if you created an upstream that watches the "avatar" field (req.file('avatar')), and a given request sends 15 file fields with the name "avatar", maxBytes will check the total number of bytes in all of the 15 files. If maxBytes is exceeded, the already-written files will be left untouched, but unfinshed file uploads will be garbage-collected, and not-yet-started uploads will be cancelled. (Note that maxBytes is currently experimental)|
 
 ========================================
 
